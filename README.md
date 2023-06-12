@@ -21,14 +21,14 @@ For example, You should set dataset path following:
  ```text
   root_path
       ├── train
-            ├── SIEMENS
-                   ├── B30f
-                   ├── B50f
-                   └── B70f
-            └── GE
-                 ├── SOFT
-                 ├── CHEST
-                 └── EDGE
+      |     ├── SIEMENS
+      |     |      ├── B30f
+      |     |      ├── B50f
+      |     |      └── B70f
+      |     └── GE
+      |          ├── SOFT
+      |          ├── CHEST
+      |          └── EDGE
       ├── valid
       └── test
   ```
