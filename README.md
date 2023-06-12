@@ -10,7 +10,7 @@
 
 Please install [Pytorch](https://pytorch.org/) for your own CUDA version.
 
-Also, please install pip in `requirements.txt` following:
+Also, please install the other packages in `requirements.txt` following:
 ```bash
 pip install -r requirements.txt
 ```
