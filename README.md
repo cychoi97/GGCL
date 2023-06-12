@@ -3,15 +3,20 @@
 * Code description will be updated soon..
 
 
-## Requirements
+## Dependencies
 
+* CUDA 11.6
+* Pytorch 1.10.0
+Please install [Pytorch](https://pytorch.org/) for your own CUDA version.
+
+Also, please install pip in `requirements.txt` following:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Prepare your own dataset
 
-For example, You should set dataset path, as follows:
+For example, You should set dataset path following:
  ```text
   root_path
       ├── train
