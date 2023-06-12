@@ -1,0 +1,9 @@
+numpy==1.19.4
+opencv-python==4.5.4.58
+opencv-python-headless==4.5.4.58
+openpyxl==3.0.9
+pydicom==2.2.2
+pylibjpeg==1.3.0
+pylibjpeg-libjpeg==1.2.0
+pylibjpeg-openjpeg==1.1.1
+tensorboard==2.9.1
