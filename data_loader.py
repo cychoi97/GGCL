@@ -22,7 +22,7 @@ GE_label = {'CHEST':0}
 
 # make dictionary list for image and label
 def dict_list(images, mode, dataset):
-    labels = [str(image.split('/')[-3]) for image in images]
+    labels = [str(image.split('/')[-2]) for image in images]
     cluster, counts = np.unique(labels, return_counts=True)
     dict_list = [{'image':image, 'label':SIEMENS_label[label] if dataset=='SIEMENS' else GE_label[label]} for image, label in zip(images, labels)]
     print('# ====================================== #')
