@@ -17,21 +17,25 @@ pip install -r requirements.txt
 
 ### Prepare your own dataset
 
-For example, You should set dataset path following:
- ```text
-  root_path
-      ├── train
-      |     ├── SIEMENS
-      |     |      ├── B30f
-      |     |      ├── B50f
-      |     |      └── B70f
-      |     └── GE
-      |          ├── SOFT
-      |          ├── CHEST
-      |          └── EDGE
-      ├── valid
-      └── test
-  ```
+For example, you should set dataset path following:
+```text
+root_path
+    ├── train
+    |     ├── SIEMENS
+    |     |     ├── B30f
+    |     |     |     ├── 0001.dcm
+    |     |     |     ├── 0002.dcm
+    |     |     |     └── 0003.dcm
+    |     |     ├── B50f
+    |     |     └── B70f
+    |     └── GE
+    |          ├── SOFT
+    |          ├── CHEST
+    |          └── EDGE
+    ├── valid
+    └── test
+```
+
 
 ## Acknowledgement
 
