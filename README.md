@@ -5,6 +5,10 @@
 
 ## Requirements
 
+```bash
+pip install -r requirements.txt
+```
+
 ### Prepare your own dataset
 
 For example, You should set dataset path, as follows:
