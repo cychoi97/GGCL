@@ -96,7 +96,7 @@ if __name__ == '__main__':
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
     parser.add_argument('--lambda_ggcl', type=float, default=2, help='weight for ggcl loss')
     parser.add_argument('--lambda_nce', type=float, default=1, help='weight for nce loss')
-    parser.add_argument('--use_feature', type=str2bool, default=True, help='If true, use GGDR or GGCL')
+    parser.add_argument('--use_feature', action='store_true', help='If specified, use GGDR or GGCL')
     parser.add_argument('--guide_type', type=str, default='ggcl',
                         choices=['ggdr', 'ggcl'], help='choose between GGDR and GGCL')
     
@@ -122,7 +122,8 @@ if __name__ == '__main__':
     # Miscellaneous.
     parser.add_argument('--num_workers', type=int, default=4)
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'test'])
-    parser.add_argument('--use_tensorboard', type=str2bool, default=False)
+    parser.add_argument('--use_tensorboard', action='store_true')
+    parser.add_argument('--dicom_save', action='store_true', help='If specified, dicom result will be saved.')
 
     # Directories.
     parser.add_argument('--root_path', type=str, help="your training dataset path", required=True)

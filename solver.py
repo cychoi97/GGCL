@@ -69,6 +69,7 @@ class Solver(object):
 
         # Miscellaneous.
         self.use_tensorboard = config.use_tensorboard
+        self.dicom_save = config.dicom_save
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # Directories.
@@ -732,12 +733,14 @@ class Solver(object):
                     x_fake_list.append(fake)
 
                     # save as dicom
-                    predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
-                    if self.dataset == 'SIEMENS':
-                        dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS.dcm')
-                    elif self.dataset == 'GE':
-                        dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE.dcm')
-                    self.save_dicom(dcm_path, predict, dcm_save_path)
+                    if self.dicom_save:
+                        predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
+                        if self.dataset == 'SIEMENS':
+                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS.dcm')
+                        elif self.dataset == 'GE':
+                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE.dcm')
+                        self.save_dicom(dcm_path, predict, dcm_save_path)
+                        print(f'Saved fake dicom image into {dcm_save_path}...')
 
                 if self.dataset == 'SIEMENS':
                     png_result_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}.png')
@@ -747,7 +750,7 @@ class Solver(object):
                 # Save the translated images.
                 x_concat = torch.cat(x_fake_list, dim=3)
                 save_image(self.denorm(x_concat.data.cpu()), png_result_path, nrow=1, padding=0)
-                print('Saved real and fake images into {}...'.format(png_result_path))
+                print(f'Saved real and fake images into {png_result_path}...')
 
     def test_multi(self):
         """Translate images using StarGAN trained on multiple datasets."""
@@ -779,16 +782,16 @@ class Solver(object):
                             fake, _ = self.G(x_real, c_trg)
                         x_fake_list.append(fake)
 
-                        # save as dicom
-                        predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
-                        if num == 0:
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
-                            self.save_dicom(dcm_path, predict, dcm_save_path)
-                            print(f'Saved real and fake images into {dcm_save_path}...')
-                        elif num == 1:
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
-                            self.save_dicom(dcm_path, predict, dcm_save_path)
-                            print(f'Saved real and fake images into {dcm_save_path}...')
+                        # Save as dicom
+                        if self.dicom_save:
+                            predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
+                            if num == 0:
+                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
+                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                            elif num == 1:
+                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
+                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                            print(f'Saved fake dicom image into {dcm_save_path}...')
                     for c_ge in c_ge_list:
                         c_trg = torch.cat([zero_siemens, c_ge, mask_ge], dim=1)
                         if self.use_feature == False:
@@ -797,24 +800,23 @@ class Solver(object):
                             fake, _ = self.G(x_real, c_trg)
                         x_fake_list.append(fake)
 
-                        # save as dicom
-                        predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
-                        if num == 0:
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
-                            self.save_dicom(dcm_path, predict, dcm_save_path)
-                            print(f'Saved real and fake images into {dcm_save_path}...')
-                        elif num == 1:
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
-                            self.save_dicom(dcm_path, predict, dcm_save_path)
-                            print(f'Saved real and fake images into {dcm_save_path}...') 
+                        # Save as dicom
+                        if self.dicom_save:
+                            predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
+                            if num == 0:
+                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
+                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                            elif num == 1:
+                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
+                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                            print(f'Saved fake dicom image into {dcm_save_path}...')
 
                     # Save the translated images.
                     x_concat = torch.cat(x_fake_list, dim=3)
                     if num == 0:
                         png_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}.png')
                         save_image(self.denorm(x_concat.data.cpu()), png_save_path, nrow=1, padding=0)
-                        print(f'Saved real and fake images into {png_save_path}...')
                     elif num == 1:
                         png_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}.png')
                         save_image(self.denorm(x_concat.data.cpu()), png_save_path, nrow=1, padding=0)
-                        print(f'Saved real and fake images into {png_save_path}...')
+                    print(f'Saved real and fake images into {png_save_path}...')
