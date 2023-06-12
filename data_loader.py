@@ -12,7 +12,7 @@ from torchvision import transforms as T
 
 
 # data file extension
-EXTENSION = ['.jpg', '.jpeg', '.png', '.tiff', '.dcm', '.dicom', '.nii']
+EXTENSION = ['.jpg', '.jpeg', '.png', '.tiff', '.dcm', '.dicom']
 
 
 # data label
