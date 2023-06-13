@@ -80,6 +80,8 @@ Test results will be stored in `./result/results/png` as png file.
 
 To save results as dicom file together, you can use `--dicom_save`.
 
+*Caution* When using `--dicom_save`, you should set `--batch_size 1`.
+
 ```python
 python main.py --mode test --dataset SIEMENS --batch_size 1 --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000 --dicom_save
 ```
