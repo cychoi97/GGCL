@@ -22,7 +22,7 @@ GE_label = {'CHEST':0}
 
 # make dictionary list for image and label
 def dict_list(images, mode, dataset):
-    labels = [str(image.split('/')[-2]) for image in images]
+    labels = [str(image.split('/')[-3]) for image in images]
     cluster, counts = np.unique(labels, return_counts=True)
     dict_list = [{'image':image, 'label':SIEMENS_label[label] if dataset=='SIEMENS' else GE_label[label]} for image, label in zip(images, labels)]
     print('# ====================================== #')
@@ -107,6 +107,7 @@ class Dataset(Dataset):
         fname = self.dict_list[index]['image']
         label = self.dict_list[index]['label']
         with self._open_file(fname) as f:
+            path = f.name
             if self._file_ext(fname) == '.dcm' or '.dicom':
                 dcm = pydicom.read_file(f, force=True)
                 img = dcm.pixel_array.astype(np.float32)
@@ -114,7 +115,7 @@ class Dataset(Dataset):
             else: # jpg, jpeg, tiff, png, etc.
                 img = np.array(Image.open(f))
         img = self._resize(img)
-        dict_list = {'image':self.transform(img)*2 - 1, 'label':label, 'path':fname}
+        dict_list = {'image':self.transform(img)*2 - 1, 'label':label, 'path':path}
         return dict_list
 
 

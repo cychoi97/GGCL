@@ -93,7 +93,7 @@ class Solver(object):
 
     def build_model(self):
         """Create a generator and a discriminator."""
-        if self.use_feature == False:
+        if not self.use_feature:
             if self.dataset in ['SIEMENS']:
                 self.G = Generator(self.g_conv_dim, self.c1_dim, self.g_repeat_num)
                 self.D = Discriminator(self.image_size, self.d_conv_dim, self.c1_dim, self.d_repeat_num)
@@ -244,19 +244,16 @@ class Solver(object):
         loss = loss.mean()
         return loss
     
-    def save_dicom(self, original_dcm_path, predict_output, save_path):
+    def save_dicom(self, dcm_path, predict_output, save_path):
         predict_img = predict_output.copy()
-        
-        dcm = pydicom.dcmread(original_dcm_path, force=True)
+        dcm = pydicom.dcmread(dcm_path, force=True)
 
         intercept = dcm.RescaleIntercept
         slope = dcm.RescaleSlope
         
         predict_img -= np.float32(intercept)
-
         if slope != 1:
             predict_img = predict_img.astype(np.float32) / slope
-
         predict_img = predict_img.astype(np.int16)
 
         dcm.file_meta.TransferSyntaxUID = pydicom.uid.ExplicitVRLittleEndian
@@ -337,7 +334,7 @@ class Solver(object):
             # =================================================================================== #
 
             # Compute loss with real images.
-            if self.use_feature == False:
+            if not self.use_feature:
                 out_src, out_cls = self.D(x_real)
             else:
                 out_src, out_cls, _ = self.D(x_real)
@@ -345,7 +342,7 @@ class Solver(object):
             d_loss_cls = self.classification_loss(out_cls, label_org)
 
             # Compute loss with fake images.
-            if self.use_feature == False:
+            if not self.use_feature:
                 x_fake = self.G(x_real, c_trg)
                 out_src, _  = self.D(x_fake.detach())
             else:
@@ -356,7 +353,7 @@ class Solver(object):
             # Compute loss for gradient penalty.
             alpha = torch.rand(x_real.size(0), 1, 1, 1).to(self.device)
             x_hat = (alpha * x_real.data + (1 - alpha) * x_fake.data).requires_grad_(True)
-            if self.use_feature == False:
+            if not self.use_feature:
                 out_src, _ = self.D(x_hat)
             else:
                 out_src, _, _ = self.D(x_hat)
@@ -364,7 +361,7 @@ class Solver(object):
 
             # Compute loss for GGCL.
             d_loss = d_loss_real + d_loss_fake + self.lambda_cls * d_loss_cls + self.lambda_gp * d_loss_gp
-            if self.use_feature == True:
+            if self.use_feature:
                 if self.guide_type == 'ggdr':
                     d_loss_ggcl = self.cosine_distance_loss(g_out_feature, d_out_feature)
                 elif self.guide_type == 'ggcl':
@@ -382,7 +379,7 @@ class Solver(object):
             loss['D/loss_fake'] = d_loss_fake.item()
             loss['D/loss_cls'] = d_loss_cls.item()
             loss['D/loss_gp'] = d_loss_gp.item()
-            if self.use_feature == True:
+            if self.use_feature:
                 loss['D/loss_ggcl'] = d_loss_ggcl.item()
             
             # =================================================================================== #
@@ -391,7 +388,7 @@ class Solver(object):
             
             if (i+1) % self.n_critic == 0:
                 # Original-to-target domain.
-                if self.use_feature == False:
+                if not self.use_feature:
                     x_fake = self.G(x_real, c_trg)
                     out_src, out_cls = self.D(x_fake)
                 else:
@@ -401,7 +398,7 @@ class Solver(object):
                 g_loss_cls = self.classification_loss(out_cls, label_trg)
 
                 # Target-to-original domain.
-                if self.use_feature == False:
+                if not self.use_feature:
                     x_reconst = self.G(x_fake, c_org)
                 else:
                     x_reconst, _ = self.G(x_fake, c_org)
@@ -440,7 +437,7 @@ class Solver(object):
                 with torch.no_grad():
                     x_fake_list = [x_fixed]
                     for c_fixed in c_fixed_list:
-                        if self.use_feature == False:
+                        if not self.use_feature:
                             fake = self.G(x_fixed, c_fixed)
                         else:
                             fake, _ = self.G(x_fixed, c_fixed)
@@ -557,7 +554,7 @@ class Solver(object):
                 # =================================================================================== #
 
                 # Compute loss with real images.
-                if self.use_feature == False:
+                if not self.use_feature:
                     out_src, out_cls = self.D(x_real)
                 else:
                     out_src, out_cls, _ = self.D(x_real)
@@ -566,7 +563,7 @@ class Solver(object):
                 d_loss_cls = self.classification_loss(out_cls, label_org)
 
                 # Compute loss with fake images.
-                if self.use_feature == False:
+                if not self.use_feature:
                     x_fake = self.G(x_real, c_trg)
                     out_src, _  = self.D(x_fake.detach())
                 else:
@@ -577,7 +574,7 @@ class Solver(object):
                 # Compute loss for gradient penalty.
                 alpha = torch.rand(x_real.size(0), 1, 1, 1).to(self.device)
                 x_hat = (alpha*x_real.data + (1-alpha)*x_fake.data).requires_grad_(True)
-                if self.use_feature == False:
+                if not self.use_feature:
                     out_src, _ = self.D(x_hat)
                 else:
                     out_src, _, _ = self.D(x_hat)
@@ -585,7 +582,7 @@ class Solver(object):
 
                 # Compute loss for GGCL.
                 d_loss = d_loss_real + d_loss_fake + self.lambda_cls*d_loss_cls + self.lambda_gp*d_loss_gp
-                if self.use_feature == True:
+                if self.use_feature:
                     if self.guide_type == 'ggdr':
                         d_loss_ggcl = self.cosine_distance_loss(g_out_feature, d_out_feature)
                     elif self.guide_type == 'ggcl':
@@ -603,7 +600,7 @@ class Solver(object):
                 loss['D/loss_fake'] = d_loss_fake.item()
                 loss['D/loss_cls'] = d_loss_cls.item()
                 loss['D/loss_gp'] = d_loss_gp.item()
-                if self.use_feature == True:
+                if self.use_feature:
                     loss['D/loss_ggcl'] = d_loss_ggcl.item()
             
                 # =================================================================================== #
@@ -612,7 +609,7 @@ class Solver(object):
 
                 if (i+1) % self.n_critic == 0:
                     # Original-to-target domain.
-                    if self.use_feature == False:
+                    if not self.use_feature:
                         x_fake = self.G(x_real, c_trg)
                         out_src, out_cls = self.D(x_fake)
                     else:
@@ -623,7 +620,7 @@ class Solver(object):
                     g_loss_cls = self.classification_loss(out_cls, label_trg)
 
                     # Target-to-original domain.
-                    if self.use_feature == False:
+                    if not self.use_feature:
                         x_reconst = self.G(x_fake, c_org)
                     else:
                         x_reconst, _ = self.G(x_fake, c_org)
@@ -663,14 +660,14 @@ class Solver(object):
                     x_fake_list = [x_fixed]
                     for c_fixed in c_siemens_list:
                         c_trg = torch.cat([c_fixed, zero_ge, mask_siemens], dim=1)
-                        if self.use_feature == False:
+                        if not self.use_feature:
                             fake = self.G(x_fixed, c_trg)
                         else:
                             fake, _ = self.G(x_fixed, c_trg)
                         x_fake_list.append(fake)
                     for c_fixed in c_ge_list:
                         c_trg = torch.cat([zero_siemens, c_fixed, mask_ge], dim=1)
-                        if self.use_feature == False:
+                        if not self.use_feature:
                             fake = self.G(x_fixed, c_trg)
                         else:
                             fake, _ = self.G(x_fixed, c_trg)
@@ -714,7 +711,7 @@ class Solver(object):
             for i, data_dict in enumerate(data_loader):
                 x_real = data_dict['image']
                 c_org = data_dict['label']
-                dcm_path = data_dict['path']
+                dcm_path = data_dict['path'][0]
 
                 # Prepare input images and target domain labels.
                 x_real = x_real.to(self.device)
@@ -726,7 +723,7 @@ class Solver(object):
                 # Translate images.
                 x_fake_list = [x_real]
                 for c_trg in c_trg_list:
-                    if self.use_feature == False:
+                    if not self.use_feature:
                         fake = self.G(x_real, c_trg)
                     else:
                         fake, _ = self.G(x_real, c_trg)
@@ -736,16 +733,16 @@ class Solver(object):
                     if self.dicom_save:
                         predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
                         if self.dataset == 'SIEMENS':
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS.dcm')
+                            dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_trg.cpu()}.dcm')
                         elif self.dataset == 'GE':
-                            dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE.dcm')
+                            dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_trg.cpu()}.dcm')
                         self.save_dicom(dcm_path, predict, dcm_save_path)
                         print(f'Saved fake dicom image into {dcm_save_path}...')
 
                 if self.dataset == 'SIEMENS':
-                    png_result_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}.png')
+                    png_result_path = os.path.join(self.result_dir, f'png/{i+1}_SIEMENS_{str(c_org.numpy())}.png')
                 elif self.dataset == 'GE':
-                    png_result_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}.png')
+                    png_result_path = os.path.join(self.result_dir, f'png/{i+1}_GE_{str(c_org.numpy())}.png')
 
                 # Save the translated images.
                 x_concat = torch.cat(x_fake_list, dim=3)
@@ -762,7 +759,7 @@ class Solver(object):
                 for i, data_dict in enumerate(loader):
                     x_real = data_dict['image']
                     c_org = data_dict['label']
-                    dcm_path = data_dict['path']
+                    dcm_path = data_dict['path'][0]
 
                     # Prepare input images and target domain labels.
                     x_real = x_real.to(self.device)
@@ -776,7 +773,7 @@ class Solver(object):
                     x_fake_list = [x_real]
                     for c_siemens in c_siemens_list:
                         c_trg = torch.cat([c_siemens, zero_ge, mask_siemens], dim=1)
-                        if self.use_feature == False:
+                        if not self.use_feature:
                             fake = self.G(x_real, c_trg)
                         else:
                             fake, _ = self.G(x_real, c_trg)
@@ -786,15 +783,15 @@ class Solver(object):
                         if self.dicom_save:
                             predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
                             if num == 0:
-                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
+                                dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
                                 self.save_dicom(dcm_path, predict, dcm_save_path)
                             elif num == 1:
-                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
+                                dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
                                 self.save_dicom(dcm_path, predict, dcm_save_path)
                             print(f'Saved fake dicom image into {dcm_save_path}...')
                     for c_ge in c_ge_list:
                         c_trg = torch.cat([zero_siemens, c_ge, mask_ge], dim=1)
-                        if self.use_feature == False:
+                        if not self.use_feature:
                             fake = self.G(x_real, c_trg)
                         else:
                             fake, _ = self.G(x_real, c_trg)
@@ -804,19 +801,19 @@ class Solver(object):
                         if self.dicom_save:
                             predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
                             if num == 0:
-                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
+                                dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
                                 self.save_dicom(dcm_path, predict, dcm_save_path)
                             elif num == 1:
-                                dcm_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
+                                dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
                                 self.save_dicom(dcm_path, predict, dcm_save_path)
                             print(f'Saved fake dicom image into {dcm_save_path}...')
 
                     # Save the translated images.
                     x_concat = torch.cat(x_fake_list, dim=3)
                     if num == 0:
-                        png_save_path = os.path.join(self.result_dir, f'{i+1}_SIEMENS_{str(c_org.numpy())}.png')
+                        png_save_path = os.path.join(self.result_dir, f'png/{i+1}_SIEMENS_{str(c_org.numpy())}.png')
                         save_image(self.denorm(x_concat.data.cpu()), png_save_path, nrow=1, padding=0)
                     elif num == 1:
-                        png_save_path = os.path.join(self.result_dir, f'{i+1}_GE_{str(c_org.numpy())}.png')
+                        png_save_path = os.path.join(self.result_dir, f'png/{i+1}_GE_{str(c_org.numpy())}.png')
                         save_image(self.denorm(x_concat.data.cpu()), png_save_path, nrow=1, padding=0)
                     print(f'Saved real and fake images into {png_save_path}...')
