@@ -41,7 +41,12 @@ root_path
 
 For multi-GPU, you can use `--multi-gpu-mode DataParallel`.
 
-### Train
+For generator-guided contrastive learning, you should specify two arguments below:
+
+* `--use_feature` makes GGCL (or [GGDR](https://github.com/naver-ai/GGDR)) run.
+* `--guide_type` decides which regularization method is used between GGDR and GGCL. Default is GGCL.
+
+If not specified `--use_feature`, Vanilla StarGAN will be run.
 
 For one dataset (e.g. SIEMENS),
 ```python
@@ -52,12 +57,7 @@ for two dataset (e.g. SIEMENS and GE),
 python main.py --mode train --dataset Both --batch_size 2 --root_path 'your_own_dataset_path' --use_feature --guide_type ggcl
 ```
 
-For generator-guided contrastive learning, you have to specify two arguments below:
-
-* `--use_feature` makes GGCL (or [GGDR](https://github.com/naver-ai/GGDR)) run.
-* `--guide_type` decides which regularization method is used between GGDR and GGCL. Default is GGCL.
-
-Model checkpoints and validation samples will be stored in ./result/models and ./result/samples, respectively.
+Model checkpoints and validation samples will be stored in `./result/models` and `./result/samples`, respectively.
 
 ### resume
 
@@ -69,7 +69,19 @@ python main.py --mode train --dataset SIEMENS --batch_size 2 --root_path 'your_o
 
 ## Test
 
+**Png file save
+```python
+python main.py --mode test --dataset SIEMENS --batch_size 1 --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000
+```
 
+Test results will be stored in `./result/results` as png file.
+
+**Dicom file save
+```python
+python main.py --mode test --dataset SIEMENS --batch_size 1 --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000 --dicom_save
+```
+
+To save results as dicom file together, you can use `--dicom_save`.
 
 
 ## Acknowledgement
