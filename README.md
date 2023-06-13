@@ -46,7 +46,7 @@ For generator-guided contrastive learning, you should specify two arguments belo
 * `--use_feature` makes GGCL (or [GGDR](https://github.com/naver-ai/GGDR)) run.
 * `--guide_type` decides which regularization method is used between GGDR and GGCL. Default is GGCL.
 
-If not specified `--use_feature`, Vanilla StarGAN will be run.
+If not specified `--use_feature`, Vanilla [StarGAN](https://github.com/yunjey/stargan) will be run.
 
 For one dataset (e.g. SIEMENS),
 ```python
