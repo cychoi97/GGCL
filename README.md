@@ -10,7 +10,7 @@
 
 Please install [Pytorch](https://pytorch.org/) for your own CUDA version.
 
-Also, please install the other packages in `requirements.txt` following:
+Also, install the other packages in `requirements.txt` following:
 ```bash
 pip install -r requirements.txt
 ```
@@ -35,6 +35,41 @@ root_path
     ├── valid
     └── test
 ```
+
+
+## Training
+
+For multi-GPU, you can use `--multi-gpu-mode DataParallel`.
+
+### Train
+
+For one dataset (e.g. SIEMENS),
+```python
+python main.py --mode train --dataset SIEMENS --batch_size 2 --root_path 'your_own_dataset_path' --use_feature --guide_type ggcl
+```
+for two dataset (e.g. SIEMENS and GE),
+```python
+python main.py --mode train --dataset Both --batch_size 2 --root_path 'your_own_dataset_path' --use_feature --guide_type ggcl
+```
+
+For generator-guided contrastive learning, you have to specify two arguments below:
+
+* `--use_feature` makes GGCL (or [GGDR](https://github.com/naver-ai/GGDR)) run.
+* `--guide_type` decides which regularization method is used between GGDR and GGCL. Default is GGCL.
+
+Model checkpoints and validation samples will be stored in ./result/models and ./result/samples, respectively.
+
+### resume
+
+To restart training, you can use `--resume_iters`.
+```python
+python main.py --mode train --dataset SIEMENS --batch_size 2 --root_path 'your_own_dataset_path' --use_feature --guide_type ggcl --resume_iters 100000
+```
+
+
+## Test
+
+
 
 
 ## Acknowledgement
