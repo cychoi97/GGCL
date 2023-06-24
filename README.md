@@ -1,4 +1,4 @@
-# CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning
+## CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning (MICCAI 2023)
 
 * Code description will be updated soon..
 
@@ -21,17 +21,17 @@ For example, you should set dataset path following:
 ```text
 root_path
     ├── train
-    |     ├── SIEMENS
-    |     |     ├── B30f
-    |     |     |     ├── 0001.dcm
-    |     |     |     ├── 0002.dcm
-    |     |     |     └── 0003.dcm
-    |     |     ├── B50f
-    |     |     └── B70f
-    |     └── GE
-    |          ├── SOFT
-    |          ├── CHEST
-    |          └── EDGE
+          ├── SIEMENS
+                ├── B30f
+                      ├── 0001.dcm
+                      ├── 0002.dcm
+                      └── 0003.dcm
+                ├── B50f
+                └── B70f
+          └── GE
+               ├── SOFT
+               ├── CHEST
+               └── EDGE
     ├── valid
     └── test
 ```
@@ -99,4 +99,4 @@ Test results will be stored in `./result/results/png` and `./result/results/dcm`
 
 ## Acknowledgement
 
-Our code is based on [StarGAN](https://github.com/yunjey/stargan), and `data_loader.py` is inspired by [StyleGAN2-ADA](https://github.com/NVlabs/stylegan2-ada-pytorch).
+Our code is heavily based on [StarGAN](https://github.com/yunjey/stargan), and `data_loader.py` is inspired by [StyleGAN2-ADA](https://github.com/NVlabs/stylegan2-ada-pytorch).
