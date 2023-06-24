@@ -1,4 +1,4 @@
-# CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning (MICCAI 2023)
+## CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning (MICCAI 2023)
 
 * Code description will be updated soon..
 
