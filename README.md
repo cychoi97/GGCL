@@ -1,4 +1,4 @@
-## CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning (MICCAI 2023)
+# CT Kernel Conversion Using Multi-Domain Image Translation with Generator-Guided Contrastive Learning (MICCAI 2023)
 
 * Code description will be updated soon..
 
@@ -99,4 +99,4 @@ Test results will be stored in `./result/results/png` and `./result/results/dcm`
 
 ## Acknowledgement
 
-Our code is heavily based on [StarGAN](https://github.com/yunjey/stargan), and `data_loader.py` is inspired by [StyleGAN2-ADA](https://github.com/NVlabs/stylegan2-ada-pytorch).
+Our code is heavily based on [StarGAN](https://github.com/yunjey/stargan) [CUT](https://github.com/taesungp/contrastive-unpaired-translation), and `data_loader.py` is inspired by [StyleGAN2-ADA](https://github.com/NVlabs/stylegan2-ada-pytorch).
