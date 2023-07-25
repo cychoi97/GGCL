@@ -99,6 +99,6 @@ Test results will be stored in `./result/results/png` and `./result/results/dcm`
 
 ## Acknowledgement
 
-Our code is heavily based on [StarGAN](https://github.com/yunjey/stargan) and [CUT](https://github.com/taesungp/contrastive-unpaired-translation).
+Our main code is heavily based on [StarGAN](https://github.com/yunjey/stargan) and patch-wise contrastive learning code is brought from [CUT](https://github.com/taesungp/contrastive-unpaired-translation).
 
 `data_loader.py` is inspired by [StyleGAN2-ADA](https://github.com/NVlabs/stylegan2-ada-pytorch).
