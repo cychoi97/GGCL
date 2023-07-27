@@ -11,9 +11,6 @@
   †equal contribution <br>
 </div>
 
-* Code description will be updated soon..
-
-
 ## Dependencies
 
 * CUDA 11.6
