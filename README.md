@@ -11,6 +11,10 @@
   †equal contribution <br>
 </div>
 
+<div align="center">
+    <img src="assets/architecture.png" height="300">
+</div>
+
 ## Dependencies
 
 * CUDA 11.6
