@@ -4,7 +4,7 @@
   <a>Jiheon&nbsp;Jeong</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sangyoon&nbsp;Lee</a><sup>2</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sang&nbsp;Min&nbsp;Lee</a><sup>3</sup> &ensp; <b>&middot;</b> &ensp;
-  <a>Namkug&nbsp;Kim</a><sup>2,3</sup> <br><br>
+  <a href="https://scholar.google.com/citations?hl=ko&user=e93LeuwAAAAJ" target="_blank">Namkug&nbsp;Kim</a><sup>2,3</sup> <br><br>
   <sup>1</sup>Department of Biomedical Engineering, AMIST, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
   <sup>2</sup>Department of Convergence Medicine, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
   <sup>3</sup>Department of Radiology, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
