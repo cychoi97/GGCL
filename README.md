@@ -1,13 +1,13 @@
 <h1 align="center"> CT Kernel Conversion Using Multi-Domain Image-to-Image Translation with Generator-Guided Contrastive Learning </h1>
 <div align="center">
   <a>Changyong&nbsp;Choi</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
-  <a>Jiheon&nbsp;Jeong</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
+  <a href="https://github.com/JeongJiHeon" target="_blank">Jiheon&nbsp;Jeong</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sangyoon&nbsp;Lee</a><sup>2</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sang&nbsp;Min&nbsp;Lee</a><sup>3</sup> &ensp; <b>&middot;</b> &ensp;
   <a href="https://scholar.google.com/citations?hl=ko&user=e93LeuwAAAAJ" target="_blank">Namkug&nbsp;Kim</a><sup>2,3</sup> <br><br>
-  <sup>1</sup>Department of Biomedical Engineering, AMIST, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
-  <sup>2</sup>Department of Convergence Medicine, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
-  <sup>3</sup>Department of Radiology, Asan Medical Center, University of Ulsan College of Medicine, Seoul, Republic of Korea <br>
+  <sup>1</sup>Department of Biomedical Engineering, AMIST, Asan Medical Center, University of Ulsan College of Medicine <br>
+  <sup>2</sup>Department of Convergence Medicine, Asan Medical Center, University of Ulsan College of Medicine <br>
+  <sup>3</sup>Department of Radiology, Asan Medical Center, University of Ulsan College of Medicine <br>
   †equal contribution <br>
 </div>
 
