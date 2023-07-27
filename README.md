@@ -4,7 +4,7 @@
   <a>Jiheon&nbsp;Jeong</a><sup>1,2</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sangyoon&nbsp;Lee</a><sup>2</sup> &ensp; <b>&middot;</b> &ensp;
   <a>Sang&nbsp;Min&nbsp;Lee</a><sup>3</sup> &ensp; <b>&middot;</b> &ensp;
-    <a>Namkug&nbsp;Kim</a><sup>2,3</sup> &ensp; <b>&middot;</b> &ensp;
+    <a>Namkug&nbsp;Kim</a><sup>2,3</sup>
 <!--   <br>
   <a href="https://weilinie.github.io/" target="_blank">Weili&nbsp;Nie</a><sup>2,</sup>† &ensp; <b>&middot;</b> &ensp;
   <a href="http://tensorlab.cms.caltech.edu/users/anima/" target="_blank">Anima&nbsp;Anandkumar</a><sup>2,3,</sup>† <br>
