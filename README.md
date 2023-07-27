@@ -14,7 +14,7 @@
 This is an application study for CT kernel conversion using Multi-Domain Image-to-Image Translation ([StarGAN](https://github.com/yunjey/stargan)) with generator-guided discriminator regularization ([GGDR](https://github.com/naver-ai/GGDR)) and contrastive learning from contrastive unpaired translation ([CUT](https://github.com/taesungp/contrastive-unpaired-translation)).
 
 <div align="center">
-    <img src="assets/architecture.png" height="500" width="300">
+    <img src="assets/architecture.png" height="500" width="450">
 </div>
 
 ## Dependencies
