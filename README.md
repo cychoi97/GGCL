@@ -8,8 +8,8 @@
 <!--   <br>
   <a href="https://weilinie.github.io/" target="_blank">Weili&nbsp;Nie</a><sup>2,</sup>† &ensp; <b>&middot;</b> &ensp;
   <a href="http://tensorlab.cms.caltech.edu/users/anima/" target="_blank">Anima&nbsp;Anandkumar</a><sup>2,3,</sup>† <br>
-  <sup>1</sup>Georgia Tech &emsp; <sup>2</sup>NVIDIA Corporation &emsp; <sup>3</sup>Caltech &emsp; †equal advising <br>
-</div> -->
+  <sup>1</sup>Georgia Tech &emsp; <sup>2</sup>NVIDIA Corporation &emsp; <sup>3</sup>Caltech &emsp; †equal advising <br> -->
+</div>
 
 * Code description will be updated soon..
 
