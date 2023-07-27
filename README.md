@@ -10,12 +10,13 @@
   <sup>3</sup>Department of Radiology, Asan Medical Center, University of Ulsan College of Medicine <br>
   †equal contribution <br>
 </div>
-<br>
+
+## Introduction
 
 This is an application study for CT kernel conversion using Multi-Domain Image-to-Image Translation ([StarGAN](https://github.com/yunjey/stargan)) with generator-guided discriminator regularization ([GGDR](https://github.com/naver-ai/GGDR)) and contrastive learning from contrastive unpaired translation ([CUT](https://github.com/taesungp/contrastive-unpaired-translation)).
 
 <div align="center">
-    <img src="assets/architecture.png" height="500" width="500">
+    <img src="assets/architecture.png" height="500">
 </div>
 
 ## Dependencies
