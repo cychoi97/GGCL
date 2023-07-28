@@ -12,7 +12,7 @@
 </div>
 
 ## News
-- Accepted in MICCAI 2023!
+* Accepted in MICCAI 2023!
 
 ## Introduction
 
