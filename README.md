@@ -11,6 +11,9 @@
   †equal contribution <br>
 </div>
 
+## News
+- Accepted in MICCAI 2023!
+
 ## Introduction
 
 This is an application study for CT kernel conversion using Multi-Domain Image-to-Image Translation ([StarGAN](https://github.com/yunjey/stargan)) with generator-guided discriminator regularization ([GGDR](https://github.com/naver-ai/GGDR)) and contrastive learning from contrastive unpaired translation ([CUT](https://github.com/taesungp/contrastive-unpaired-translation)).
