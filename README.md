@@ -13,6 +13,7 @@
 
 ## News
 * Accepted in MICCAI 2023!
+* Update code for the other CT modality from GE.
 
 ## Introduction
 
