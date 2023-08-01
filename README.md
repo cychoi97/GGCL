@@ -11,9 +11,11 @@
   †equal contribution <br>
 </div>
 
+
 ## News
 * Accepted in MICCAI 2023!
 * Update code for the other CT modality from GE.
+
 
 ## Introduction
 
@@ -26,6 +28,7 @@ In our study, we used only SIEMENS dataset, however, you can train with other CT
 </div>
 
 > **Abstract.** Computed tomography (CT) image can be reconstructed by various types of kernels depending on what anatomical structure is evaluated. Also, even if the same anatomical structure is analyzed, the kernel being used differs depending on whether it is qualitative or quantitative evaluation. Thus, CT images reconstructed with different kernels would be necessary for accurate diagnosis. However, once CT image is reconstructed with a specific kernel, the CT raw data, sinogram is usually removed because of its large capacity and limited storage. To solve this problem, many methods have been proposed by using deep learning approach using generative adversarial networks in image-to-image translation for kernel conversion. Nevertheless, it is still challenging task that translated image should maintain the anatomical structure of source image in medical domain. In this study, we propose CT kernel conversion method using multi-domain image-to-image translation with generator-guided contrastive learning. Our proposed method maintains the anatomical structure of the source image accurately and can be easily utilized into other multi-domain image-to-image translation methods with only changing the discriminator architecture and without adding any additional networks. Experimental results show that our proposed method can translate CT images from sharp into soft kernels and from soft into sharp kernels compared to other image-to-image translation methods. 
+
 
 ## Dependencies
 
@@ -86,9 +89,6 @@ Model checkpoints and validation samples will be stored in `./result/models` and
 ### resume
 
 To restart training, you can use `--resume_iters`.
-```python
-python main.py --mode train --dataset SIEMENS --batch_size 2 --root_path 'your_own_dataset_path' --use_feature --guide_type ggcl --resume_iters 100000
-```
 
 
 ## Test
