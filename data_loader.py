@@ -73,11 +73,10 @@ class Dataset(Dataset):
             elif img.shape[0] < img.shape[1]:
                 padding = np.zeros(((img.shape[1] - img.shape[0]) // 2), img.shape[1])
                 img = np.concatenate([padding, img, padding], 0)
-        else:
-            if img.shape[0] < self.image_size:
-                img = cv2.resize(img, (self.image_size, self.image_size), cv2.INTER_CUBIC)
-            elif img.shape[0] > self.image_size:
-                img = cv2.resize(img, (self.image_size, self.image_size), cv2.INTER_AREA)
+        if img.shape[0] < self.image_size:
+            img = cv2.resize(img, (self.image_size, self.image_size), cv2.INTER_CUBIC)
+        elif img.shape[0] > self.image_size:
+            img = cv2.resize(img, (self.image_size, self.image_size), cv2.INTER_AREA)
         return img
 
     def _clip_and_normalize(self, img, min, max):
