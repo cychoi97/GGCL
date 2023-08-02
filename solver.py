@@ -711,7 +711,7 @@ class Solver(object):
             for i, data_dict in enumerate(data_loader):
                 x_real = data_dict['image']
                 c_org = data_dict['label']
-                dcm_path = data_dict['path'][0]
+                path = data_dict['path'][0]
 
                 # Prepare input images and target domain labels.
                 x_real = x_real.to(self.device)
@@ -736,7 +736,7 @@ class Solver(object):
                             dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_trg.cpu()}.dcm')
                         elif self.dataset == 'GE':
                             dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_trg.cpu()}.dcm')
-                        self.save_dicom(dcm_path, predict, dcm_save_path)
+                        self.save_dicom(path, predict, dcm_save_path)
                         print(f'Saved fake dicom image into {dcm_save_path}...')
 
                 if self.dataset == 'SIEMENS':
@@ -759,7 +759,7 @@ class Solver(object):
                 for i, data_dict in enumerate(loader):
                     x_real = data_dict['image']
                     c_org = data_dict['label']
-                    dcm_path = data_dict['path'][0]
+                    path = data_dict['path'][0]
 
                     # Prepare input images and target domain labels.
                     x_real = x_real.to(self.device)
@@ -784,10 +784,10 @@ class Solver(object):
                             predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
                             if num == 0:
                                 dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
-                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                                self.save_dicom(path, predict, dcm_save_path)
                             elif num == 1:
                                 dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_SIEMENS_{c_siemens.cpu()}.dcm')
-                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                                self.save_dicom(path, predict, dcm_save_path)
                             print(f'Saved fake dicom image into {dcm_save_path}...')
                     for c_ge in c_ge_list:
                         c_trg = torch.cat([zero_siemens, c_ge, mask_ge], dim=1)
@@ -802,10 +802,10 @@ class Solver(object):
                             predict = (self.denorm(fake.data.cpu())*4095.0-1024.0).numpy().astype(np.float32)
                             if num == 0:
                                 dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_SIEMENS_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
-                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                                self.save_dicom(path, predict, dcm_save_path)
                             elif num == 1:
                                 dcm_save_path = os.path.join(self.result_dir, f'dcm/{i+1}_GE_{str(c_org.numpy())}_to_GE_{c_ge.cpu()}.dcm')
-                                self.save_dicom(dcm_path, predict, dcm_save_path)
+                                self.save_dicom(path, predict, dcm_save_path)
                             print(f'Saved fake dicom image into {dcm_save_path}...')
 
                     # Save the translated images.
