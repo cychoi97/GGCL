@@ -1,5 +1,5 @@
-<h1 align="center"> CT Kernel Conversion <br>
-  Using Multi-Domain Image-to-Image Translation <br>
+<h1 align="center"> CT Kernel Conversion Using <br>
+  Multi-Domain Image-to-Image Translation <br>
   with Generator-Guided Contrastive Learning </h1>
 <div align="center">
   <a href="https://github.com/cychoi97" target="_blank">Changyong&nbsp;Choi</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
