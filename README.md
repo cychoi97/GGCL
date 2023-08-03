@@ -1,4 +1,6 @@
-<h1 align="center"> CT Kernel Conversion Using Multi-Domain Image-to-Image Translation with Generator-Guided Contrastive Learning </h1>
+<h1 align="center"> CT Kernel Conversion
+  Using Multi-Domain Image-to-Image Translation
+  with Generator-Guided Contrastive Learning </h1>
 <div align="center">
   <a href="https://github.com/cychoi97" target="_blank">Changyong&nbsp;Choi</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
   <a href="https://github.com/JeongJiHeon" target="_blank">Jiheon&nbsp;Jeong</a><sup>1,2,†</sup> &ensp; <b>&middot;</b> &ensp;
