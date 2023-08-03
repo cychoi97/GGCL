@@ -95,7 +95,6 @@ if __name__ == '__main__':
     parser.add_argument('--lambda_rec', type=float, default=10, help='weight for reconstruction loss')
     parser.add_argument('--lambda_gp', type=float, default=10, help='weight for gradient penalty')
     parser.add_argument('--lambda_ggcl', type=float, default=2, help='weight for ggcl loss')
-    parser.add_argument('--lambda_nce', type=float, default=1, help='weight for nce loss')
     parser.add_argument('--use_feature', action='store_true', help='If specified, use GGDR or GGCL')
     parser.add_argument('--guide_type', type=str, default='ggcl',
                         choices=['ggdr', 'ggcl'], help='choose between GGDR and GGCL')
@@ -127,7 +126,7 @@ if __name__ == '__main__':
 
     # Directories.
     parser.add_argument('--root_path', type=str, help="your training dataset path", required=True)
-    parser.add_argument('--save_path', type=str, default='./train_result')
+    parser.add_argument('--save_path', type=str, default='./result')
 
     # Step size.
     parser.add_argument('--log_step', type=int, default=10)

@@ -8,15 +8,69 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from packaging import version
+
 from model import (
     Generator,
     Discriminator,
     Generator_GGCL,
-    Discriminator_GGCL,
-    PatchNCELoss
+    Discriminator_GGCL
     )
 
 from torchvision.utils import save_image
+
+
+class PatchNCELoss(nn.Module):
+    def __init__(self, batch_size, nce_includes_all_negatives_from_minibatch):
+        super().__init__()
+        self.batch_size = batch_size
+        self.nce_includes_all_negatives_from_minibatch = nce_includes_all_negatives_from_minibatch
+        self.cross_entropy_loss = torch.nn.CrossEntropyLoss(reduction='none')
+        self.mask_dtype = torch.uint8 if version.parse(torch.__version__) < version.parse('1.2.0') else torch.bool
+
+    def forward(self, feat_q, feat_k):
+        num_patches = feat_q.shape[0]
+        dim = feat_q.shape[1]
+        feat_k = feat_k.detach()
+
+        # pos logit
+        l_pos = torch.bmm(
+            feat_q.view(num_patches, 1, -1), feat_k.view(num_patches, -1, 1))
+        l_pos = l_pos.view(num_patches, 1)
+
+        # neg logit
+
+        # Should the negatives from the other samples of a minibatch be utilized?
+        # from the same image. Therefore, we set
+        # --nce_includes_all_negatives_from_minibatch as False
+        # However, for single-image translation, the minibatch consists of
+        # crops from the "same" high-resolution image.
+        # Therefore, we will include the negatives from the entire minibatch.
+        if self.nce_includes_all_negatives_from_minibatch:
+            # reshape features as if they are all negatives of minibatch of size 1.
+            batch_dim_for_bmm = 1
+        else:
+            batch_dim_for_bmm = self.batch_size
+
+        # reshape features to batch size
+        feat_q = feat_q.view(batch_dim_for_bmm, -1, dim)
+        feat_k = feat_k.view(batch_dim_for_bmm, -1, dim)
+        npatches = feat_q.size(1)
+        l_neg_curbatch = torch.bmm(feat_q, feat_k.transpose(2, 1))
+
+        # diagonal entries are similarity between same features, and hence meaningless.
+        # just fill the diagonal with very small number, which is exp(-10) and almost zero
+        diagonal = torch.eye(npatches, device=feat_q.device, dtype=self.mask_dtype)[None, :, :]
+        l_neg_curbatch.masked_fill_(diagonal, -10.0)
+        l_neg = l_neg_curbatch.view(-1, npatches)
+
+        out = torch.cat((l_pos, l_neg), dim=1) / 0.07 # temperature nce
+
+        loss = self.cross_entropy_loss(out, torch.zeros(out.size(0), dtype=torch.long,
+                                                        device=feat_q.device))
+
+        return loss
+
 
 class Solver(object):
     """Solver for training and testing StarGAN."""
@@ -45,7 +99,6 @@ class Solver(object):
         self.lambda_rec = config.lambda_rec
         self.lambda_gp = config.lambda_gp
         self.lambda_ggcl = config.lambda_ggcl
-        self.lambda_nce = config.lambda_nce
         self.use_feature = config.use_feature
         self.guide_type = config.guide_type
 
@@ -222,7 +275,7 @@ class Solver(object):
                     patch_id = patch_id
             else:
                 patch_id = np.random.permutation(feat_reshape.shape[1])
-                patch_id = patch_id[:int(min(num_patches, patch_id.shape[0]))]  # .to(patch_ids.device)
+                patch_id = patch_id[:int(min(num_patches, patch_id.shape[0]))]
             patch_id = torch.tensor(patch_id, dtype=torch.long, device=feat.device)
             x_sample = feat_reshape[:, patch_id, :].flatten(0, 1)  # reshape(-1, x.shape[1])
         else:
@@ -236,11 +289,9 @@ class Solver(object):
 
     def PatchNCE_loss(self, src, tgt):
         self.criterionNCE = PatchNCELoss(self.batch_size, self.nce_includes_all_negatives_from_minibatch)
-        src = nn.AvgPool2d((2,2))(src)
-        tgt = nn.AvgPool2d((2,2))(tgt)
         feat_k_pool, sample_ids = self.patchsample(src, self.num_patches, None) # output size: (512, 128)
         feat_q_pool, _ = self.patchsample(tgt, self.num_patches, sample_ids)
-        loss = self.criterionNCE(feat_q_pool, feat_k_pool) * self.lambda_nce # weight NCE loss
+        loss = self.criterionNCE(feat_q_pool, feat_k_pool) # weight NCE loss
         loss = loss.mean()
         return loss
     
