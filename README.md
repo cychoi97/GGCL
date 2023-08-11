@@ -96,10 +96,10 @@ To restart training, you can use `--resume_iters`.
 ### Png file save
 ```python
 # for one dataset
-python main.py --mode test --dataset SIEMENS --batch_size 1 --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000
+python main.py --mode test --dataset SIEMENS --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000
 
 # for two dataset
-python main.py --mode test --dataset Both --batch_size 1 --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000
+python main.py --mode test --dataset Both --root_path 'your_own_dataset_path' --save_path 'result' --use_feature --test_iters 400000
 ```
 
 Test results will be stored in `./result/results/png` as png file.
@@ -107,8 +107,6 @@ Test results will be stored in `./result/results/png` as png file.
 ### Dicom file save
 
 To save results as dicom file together, you can use `--dicom_save`.
-
-*** *Caution* *** When using `--dicom_save`, you should set `--batch_size 1`.
 
 Test results will be stored in `./result/results/png` and `./result/results/dcm` as png file and dicom file, respectively.
 
