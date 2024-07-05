@@ -17,6 +17,7 @@
 ## News
 * Accepted in MICCAI 2023!
 * Update code for the other CT modality from GE.
+* [2024-07-05] Upload pre-trained weight. You can download it in google drive [link](https://drive.google.com/drive/folders/15oec7i9XpTAIcysvrjSBC2IH7KtGwxyX?usp=drive_link)
 
 
 ## Introduction
